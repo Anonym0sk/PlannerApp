@@ -1,8 +1,7 @@
 ﻿using PlannerApp;
 
-Event testEvent = new Event
+Event event1 = new Event
 {
-    Id = 1,
     Name = "First event",
     Category = "test event",
     Description = "this is a test",
@@ -12,12 +11,26 @@ Event testEvent = new Event
     IsAllDay = false
 };
 
+Event event2 = new Event();
+
 Console.WriteLine("=== First event detail: ===");
-Console.WriteLine($"Id: {testEvent.Id}");
-Console.WriteLine($"Name: {testEvent.Name}");
-Console.WriteLine($"Category: {testEvent.Category}");
-Console.WriteLine($"Description: {testEvent.Description}");
-Console.WriteLine($"Notes: {testEvent.Notes}");
-Console.WriteLine($"Start: {testEvent.Start}");
-Console.WriteLine($"End: {testEvent.End}");
-Console.WriteLine($"IsAllDay: {testEvent.IsAllDay}");
+Console.WriteLine($"Id: {event1.Id}");
+Console.WriteLine($"Name: {event1.Name}");
+Console.WriteLine($"Category: {event1.Category}");
+Console.WriteLine($"Description: {event1.Description}");
+Console.WriteLine($"Notes: {event1.Notes}");
+Console.WriteLine($"Start: {event1.Start}");
+Console.WriteLine($"End: {event1.End}");
+Console.WriteLine($"IsAllDay: {event1.IsAllDay}");
+
+Console.WriteLine();
+
+Console.WriteLine("=== Second event detail: ===");
+Console.WriteLine($"Id: {event2.Id}");
+Console.WriteLine($"Name: {event2.Name}");
+Console.WriteLine($"Category: {event2.Category}");
+Console.WriteLine($"Description: {event2.Description}");
+Console.WriteLine($"Notes: {event2.Notes}");
+Console.WriteLine($"Start: {event2.Start}");
+Console.WriteLine($"End: {event2.End}");
+Console.WriteLine($"IsAllDay: {event2.IsAllDay}");
