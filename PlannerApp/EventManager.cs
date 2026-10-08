@@ -7,9 +7,14 @@ namespace PlannerApp
     {
         private List<Event> _events = new List<Event>();
 
-        public void AddEvent(Event newEvent)
+        public bool AddEvent(Event newEvent)
         {
+            if (HasConflict(newEvent))
+                return false;
+
             _events.Add(newEvent);
+
+            return true;
         }
 
         public List<Event> GetAllEvents()
@@ -78,7 +83,7 @@ namespace PlannerApp
         {
             Event? toUpdate = GetEventById(updatedEvent.Id);
 
-            if (toUpdate == null)
+            if (toUpdate == null || HasConflict(updatedEvent))
                 return false;
 
             toUpdate.Name = updatedEvent.Name;
@@ -102,6 +107,22 @@ namespace PlannerApp
             _events.Remove(toDelete);
 
             return true;
+        }
+
+        public bool HasConflict(Event newEvent)
+        {
+            if (newEvent.IsAllDay || newEvent.End == null)
+                return false;
+
+            foreach (Event e in _events)
+            {
+                if (e.Id == newEvent.Id || e.IsAllDay || e.End == null)
+                    continue;
+
+                if (e.Start < newEvent.End && newEvent.Start < e.End)
+                    return true;
+            }
+            return false;
         }
     }
 }
