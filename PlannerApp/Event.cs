@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PlannerApp
 {
@@ -8,7 +6,7 @@ namespace PlannerApp
     {
         private static int _nextId = 1;
 
-        public int Id { get; private set; }
+        public int Id { get; internal set; }
         public string Name { get; set; } = "";
         public string Category { get; set; } = "";
         public string Description { get; set; } = "";
