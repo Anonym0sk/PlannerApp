@@ -9,11 +9,11 @@ namespace PlannerApp
 
         public bool AddEvent(Event newEvent)
         {
-            if (HasConflict(newEvent))
+            // Guard against null input or invalid time range (End before Start)
+            if (newEvent == null || IsInvalidTimeRange(newEvent) || HasConflict(newEvent))
                 return false;
 
             _events.Add(newEvent);
-
             return true;
         }
 
@@ -34,28 +34,36 @@ namespace PlannerApp
 
         public List<Event> GetEventsByName(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                return new List<Event>();
+
             List<Event> matchingEvents = new List<Event>();
 
             foreach (Event e in _events)
             {
                 if (e.Name != null &&
-                    e.Name.ToLower().Contains(name.ToLower())
-                    )
+                    e.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+                {
                     matchingEvents.Add(e);
+                }
             }
             return matchingEvents;
         }
 
         public List<Event> GetEventsByCategory(string category)
         {
+            if (string.IsNullOrWhiteSpace(category))
+                return new List<Event>();
+
             List<Event> matchingEvents = new List<Event>();
 
             foreach (Event e in _events)
             {
                 if (e.Category != null &&
-                    e.Category.ToLower().Contains(category.ToLower())
-                    )
+                    e.Category.Contains(category, StringComparison.OrdinalIgnoreCase))
+                {
                     matchingEvents.Add(e);
+                }
             }
             return matchingEvents;
         }
@@ -81,6 +89,9 @@ namespace PlannerApp
 
         public bool UpdateEvent(Event updatedEvent)
         {
+            if (updatedEvent == null || IsInvalidTimeRange(updatedEvent))
+                return false;
+
             Event? toUpdate = GetEventById(updatedEvent.Id);
 
             if (toUpdate == null || HasConflict(updatedEvent))
@@ -99,19 +110,18 @@ namespace PlannerApp
 
         public bool DeleteEvent(int id)
         {
-            Event? toDelete= GetEventById(id);
+            Event? toDelete = GetEventById(id);
 
             if (toDelete == null)
                 return false;
 
             _events.Remove(toDelete);
-
             return true;
         }
 
         public bool HasConflict(Event newEvent)
         {
-            if (newEvent.IsAllDay || newEvent.End == null)
+            if (newEvent == null || newEvent.IsAllDay || newEvent.End == null)
                 return false;
 
             foreach (Event e in _events)
@@ -123,6 +133,11 @@ namespace PlannerApp
                     return true;
             }
             return false;
+        }
+
+        private bool IsInvalidTimeRange(Event ev)
+        {
+            return !ev.IsAllDay && ev.End.HasValue && ev.End.Value < ev.Start;
         }
     }
 }
