@@ -55,7 +55,6 @@ Execute the automated test suite via CLI:
 ```bash
 dotnet test
 ```
-Or run them directly in Visual Studio using **Test Explorer** (`Ctrl + R, A`).
 
 ## Roadmap
 
